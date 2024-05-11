@@ -1,22 +1,13 @@
-function shuffle(array) {
-  let currentIndex = array.length,
-    randomIndex;
-
-  // While there are elements remaining
-  while (currentIndex !== 0) {
-    // Pick a remaining element
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-
-    // Swap it with the current element.
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex],
-      array[currentIndex],
-    ];
+function maxSlidingWindow(nums, k) {
+  const result = [];
+  const queue = [];
+  for (let i = 0; i < nums.length; i++) {
+    while (queue.length && nums[i] >= nums[queue[queue.length - 1]]) {
+      queue.pop();
+    }
+    queue.push(i);
+    if (queue[0] === i - k) queue.shift();
+    if (i >= k - 1) result.push(nums[queue[0]]);
   }
-
-  return array;
+  return result;
 }
-
-const shuffledDeck = shuffle([1, 2, 3, 4, 5]);
-console.log(shuffledDeck);
