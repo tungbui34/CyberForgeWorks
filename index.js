@@ -1,11 +1,26 @@
-function isValidBST(root) {
-  return isValid(root, null, null);
-}
-function isValid(node, min, max) {
-  if (!node) return true;
-  if ((min !== null && node.val <= min) || (max !== null && node.val >= max))
-    return false;
-  return (
-    isValid(node.left, min, node.val) && isValid(node.right, node.val, max)
-  );
-}
+const mergeSortIterative = (arr) => {
+  const merge = (left, right) => {
+    let result = [];
+    let leftIndex = 0;
+    let rightIndex = 0;
+    while (leftIndex < left.length && rightIndex < right.length) {
+      if (left[leftIndex] < right[rightIndex]) {
+        result.push(left[leftIndex]);
+        leftIndex++;
+      } else {
+        result.push(right[rightIndex]);
+        rightIndex++;
+      }
+    }
+    return result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
+  };
+  const mergeSize = 2;
+  for (let i = 0; i < arr.length; i += mergeSize) {
+    for (let j = i; j < arr.length; j += mergeSize) {
+      const left = arr.slice(j, j + mergeSize / 2);
+      const right = arr.slice(j + mergeSize / 2, j + mergeSize);
+      arr.splice(j, mergeSize, ...merge(left, right));
+    }
+  }
+  return arr;
+};
